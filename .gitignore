@@ -31,3 +31,4 @@ yarn-error.log*
 
 # custom
 /src/test
+/src/settings
