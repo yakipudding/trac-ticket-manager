@@ -168,7 +168,7 @@ const AllTicketsTable = (props: AllTicketInfoInterface) => {
           <FormGroup row>
             {columns.map(column => (
               <FormControlLabel
-                control={<Checkbox checked={!column.hidden} onChange={handleChangeColumns} name={column.field} />}
+                control={<Checkbox checked={!column.hidden} onChange={handleChangeColumns} name={column.field as string} />}
                 label={column.title}
                 key={column.field}
               />)
