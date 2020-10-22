@@ -43,7 +43,7 @@ const AllTicketsTable = (props: AllTicketInfoInterface) => {
 
   return(
     <>
-      {/* プロジェクト */}
+      {/* 条件 */}
       <div className={classes.acordion}>
         <ConditionsAccordion 
           projects={props.projects}
