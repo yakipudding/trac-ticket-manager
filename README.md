@@ -18,37 +18,41 @@ Tracのチケット管理アプリ
 - DB：SQL Server
 
 ## 起動方法
-### 事前準備
+### 0. インストール
 - SQL Server
   - 公式サイトからインストール
-  - 任意のDBインスタンスを作成
 - Node.js
   - 公式サイトからインストール
 - Git
   - 公式サイトからインストール
 
-### ソース、パッケージ取得
+### 1. DB設定
+1. SQL Serverで任意のDBインスタンスを作成
+1. リモート接続設定
+  - SSMS > サーバ設定
+    - 認証：SQL Server認証＋Win認証
+    - リモート接続を許可
+  - 構成マネージャ
+    - メニューにない場合、`SQLServerManager14.msc`で起動
+    - TCP-IPを有効にする
+    - TCPのポート>動的ポート:ブランク、ポート:1433
+  - SQL Serverのサービス再起動
+
+### 2. ソース、npmパッケージ取得
 - `git clone https://github.com/yakipudding/trac-ticket-manager.git`
 - `npm install .`
 
-### DB準備
+### 3. テーブル作成
 - 作成したDBインスタンスに対してscriptフォルダ下のスクリプトを実行
 
-### DBをリモート接続可能にする
-- SQL Server
-  - サーバ設定
-    - 認証：SQL Server認証＋Win認証
-    - リモート接続を許可
-- 構成マネージャ（メニューにない場合、`SQLServerManager14.msc`で起動）
-  - TCP-IPを有効にする
-  - TCPのポート>動的ポート:ブランク、ポート:1433
-- SQL Serverのサービス再起動
+### 4. ビルド
+- `npm run build`
 
-### 起動
-- `npm run dev`
+### 5. デプロイ
+- `npm run start`
   - [localhost:3000](http://localhost:3000)を開くとTracTicketManagerが表示されます
   - PC起動時にTracTicketManagerを起動させたいときは上記コマンドをタスクスケジューラで起動時に実行させます
 
-### （オプション）Tracからのチケット取得を自動実行させる
-- タスクスケジューラで以下コマンドを任意のタイミングで定期実行させる
+### オプション：Tracからのチケット取得を自動実行させる
+- タスクスケジューラ等で以下コマンドを任意のタイミングで定期実行させる
   - `curl http://localhost:3000/api/trac-get-tickets`
