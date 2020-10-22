@@ -7,9 +7,5 @@ export default async (req: any, res: any) => {
   const completeDateTo = req.body.CompleteDateTo
   const tickets: TicketInterface[] = await getAllTickets(projectIds, completeDateFrom, completeDateTo)
   
-  res.status(200).json(
-    { 
-      response: { tickets: tickets }
-    } 
-  ) 
+  res.status(200).json(tickets) 
 }

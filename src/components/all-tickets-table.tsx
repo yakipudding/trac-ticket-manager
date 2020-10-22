@@ -72,8 +72,7 @@ const AllTicketsTable = (props: AllTicketInfoInterface) => {
         CompleteDateTo:conditions.CompleteDateTo,
       }
       const api:any = await post("/api/get-all-tickets", params)
-      const searchTickets = api.response.tickets
-      setTickets(searchTickets)
+      setTickets(api)
     }
   }
 
