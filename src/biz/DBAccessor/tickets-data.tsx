@@ -18,16 +18,16 @@ export const getTickets = async (visible?: boolean) => {
       ,[FreeField3]
       ,[FreeField4]
       ,[FreeField5]
-      ,[CompleteDate]
+      ,CONVERT(varchar(10),[CompleteDate],111) AS [CompleteDate]
       ,[Type]
       ,[Priority]
       ,[Milestone]
       ,[Component]
       ,[Version]
-      ,[CreateTime]
-      ,[ChangeTime]
-      ,[DueAssign]
-      ,[DueClose]
+      ,CONVERT(varchar(10),[CreateTime],111) AS [CreateTime]
+      ,CONVERT(varchar(10),[ChangeTime],111) AS [ChangeTime]
+      ,CONVERT(varchar(10),[DueAssign],111) AS [DueAssign]
+      ,CONVERT(varchar(10),[DueClose],111) AS [DueClose]
       ,[Complete]
       ,[Reporter]
       ,P.[ProjectName]
@@ -41,8 +41,8 @@ export const getTickets = async (visible?: boolean) => {
     ORDER BY T.ProjectId, T.Category, T.DueAssign, T.TicketId
   `
   let result = await execQuery(query)
-  // Date型のJSONシリアライズエラーが発生するため変換
-  result = JSON.parse(JSON.stringify(result))
+  // // Date型のJSONシリアライズエラーが発生するため変換
+  // result = JSON.parse(JSON.stringify(result))
 
   return result
 }
@@ -69,16 +69,16 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
       ,[FreeField3]
       ,[FreeField4]
       ,[FreeField5]
-      ,[CompleteDate]
+      ,CONVERT(varchar(10),[CompleteDate],111) AS [CompleteDate]
       ,[Type]
       ,[Priority]
       ,[Milestone]
       ,[Component]
       ,[Version]
-      ,[CreateTime]
-      ,[ChangeTime]
-      ,[DueAssign]
-      ,[DueClose]
+      ,CONVERT(varchar(10),[CreateTime],111) AS [CreateTime]
+      ,CONVERT(varchar(10),[ChangeTime],111) AS [ChangeTime]
+      ,CONVERT(varchar(10),[DueAssign],111) AS [DueAssign]
+      ,CONVERT(varchar(10),[DueClose],111) AS [DueClose]
       ,[Complete]
       ,[Reporter]
       ,P.[ProjectName]
@@ -94,8 +94,8 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
     ORDER BY T.[CompleteDate] DESC
   `
   let result = await execQuery(query, params)
-  // Date型のJSONシリアライズエラーが発生するため変換
-  result = JSON.parse(JSON.stringify(result))
+  // // Date型のJSONシリアライズエラーが発生するため変換
+  // result = JSON.parse(JSON.stringify(result))
 
   return result
 }
