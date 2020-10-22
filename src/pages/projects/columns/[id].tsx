@@ -13,7 +13,7 @@ import { post } from '../../../biz/api'
 import { getProjectIds, getProject } from '../../../biz/DBAccessor/projects-data'
 import { getProjectFields } from '../../../biz/DBAccessor/project-fields-data'
 
-
+// プロジェクト一覧 > プロジェクト > 項目設定
 interface ProjectInfo {
   project: ProjectInterface,
   projectFields: ProjectFieldInterface[]

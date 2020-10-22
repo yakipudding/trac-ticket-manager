@@ -4,6 +4,7 @@ import { TicketInfoInterface } from '../definitions/api-interfaces'
 import { getVisibleTickets } from '../biz/get-visible-tickets'
 import TicketsTable from '../components/tickets-table'
 
+// ダッシュボード（アクティブチケット一覧）
 interface Props {
   ticketInfos: TicketInfoInterface[]
 }

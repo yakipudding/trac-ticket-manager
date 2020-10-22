@@ -8,7 +8,7 @@ import { ProjectInterface } from '../../../definitions/project-interfaces';
 import { ProjectFieldInterface } from '../../../definitions/project-field-interfaces'
 import { TicketInterface } from '../../../definitions/ticket-interfaces';
 
-// 過去チケット一覧（プロジェクト別）
+// プロジェクト > 過去チケット一覧
 interface Props {
   project: ProjectInterface,
   projectFields: ProjectFieldInterface[],

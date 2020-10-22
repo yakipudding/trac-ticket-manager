@@ -6,6 +6,7 @@ import { ValueType } from '../../definitions/types'
 import { post } from '../../biz/api'
 import { getUserDictionary } from '../../biz/DBAccessor/user-dictionary-data'
 
+// ユーザー辞書一覧
 interface Props {
   userDictionary: UserDictionaryInterface[]
 }

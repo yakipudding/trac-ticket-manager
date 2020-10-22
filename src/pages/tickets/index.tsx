@@ -5,7 +5,7 @@ import AllTicketsTable from '../../components/all-tickets-table'
 import { InitProjectFieldColumns } from '../../definitions/init-project-field-columns'
 import { ProjectInterface } from '../../definitions/project-interfaces';
 
-// 過去チケット一覧（全プロジェクト）
+// 全プロジェクト > 過去チケット一覧
 interface Props {
   projects: ProjectInterface[]
 }

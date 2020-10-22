@@ -6,6 +6,7 @@ import { ValueType } from '../../definitions/types'
 import { post } from '../../biz/api'
 import { getCategorySetting } from '../../biz/DBAccessor/category-setting-data'
 
+// カテゴリ自動付与設定
 interface Props {
   categorySetting: CategorySettingInterface[]
 }
