@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 import { CategorySettingInterface } from '../../definitions/setting-interfaces'
 import { ValueType } from '../../definitions/types'
 import { get, post } from '../../biz/api'
+import { getCategorySetting } from '../../biz/DBAccessor/category-setting-data'
 
 interface Props {
   categorySetting: CategorySettingInterface[]
@@ -23,8 +24,8 @@ const columns = [
 ]
 
 export const getStaticProps = async () => {
-  const api = await get("/api/get-category-setting")
-  const props = api.response
+  const categorySetting = await getCategorySetting()
+  const props = { categorySetting: categorySetting }
 
   return {
     props

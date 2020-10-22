@@ -1,5 +1,8 @@
 import React from 'react';
 import { get, post } from '../../../biz/api'
+import { getProjectIds, getProject } from '../../../biz/DBAccessor/projects-data'
+import { getProjectFields } from '../../../biz/DBAccessor/project-fields-data'
+import { getAllTickets } from '../../../biz/DBAccessor/tickets-data'
 import { getColumnsByFields } from '../../../biz/get-columns-by-fields'
 import AllTicketsTable from '../../../components/all-tickets-table'
 import { ProjectInterface } from '../../../definitions/project-interfaces';
@@ -14,29 +17,26 @@ interface Props {
 }
 
 export const getStaticPaths = async() => {
-  const res = await get("/api/get-projectids")
+  const projectIds = await getProjectIds()
 
   return {
-    paths: res.response.map((projectId: { id: string }) => { return { params: projectId } }),
+    paths: projectIds.map((projectId: { id: string }) => { return { params: projectId } }),
     fallback: false,
   }
 }
 
 export const getStaticProps = async ( params: { params: { id: string } } ) => {
-  const projectFieldsApi = await get("/api/get-project-fields", params)
-
-  const apiparams = {
-    ProjectIds: [params.params.id],
-    CompleteDateFrom: '',
-    CompleteDateTo: '',
-  }
-  const ticketsApi = await post("/api/get-all-tickets", apiparams)
-
+  const projectId = params.params.id
+  const projectIdNum = parseInt(params.params.id)
+  const project = await getProject(projectIdNum)
+  const projectFields = await getProjectFields(projectIdNum)
+  const tickets: TicketInterface[] = await getAllTickets([projectId], '', '')
+  
   return {
     props: {
-      project: projectFieldsApi.response.project,
-      projectFields: projectFieldsApi.response.projectFields,
-      tickets: ticketsApi.response.tickets,
+      project: project[0],
+      projectFields: projectFields,
+      tickets: tickets,
     }
   }
 }

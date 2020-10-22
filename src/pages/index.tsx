@@ -2,6 +2,7 @@ import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { TicketInfoInterface } from '../definitions/api-interfaces'
 import { get } from '../biz/api'
+import { getVisibleTickets } from '../biz/get-visible-tickets'
 import TicketsTable from '../components/tickets-table'
 
 interface Props {
@@ -17,11 +18,10 @@ const useStyles = makeStyles((theme: Theme) =>
 );
 
 export const getStaticProps = async () => {
-  const api = await get("/api/get-visible-tickets")
-  const response = api.response
+  const visibleTickets = await getVisibleTickets()
   return {
     props: {
-      ticketInfos: response
+      ticketInfos: visibleTickets
     }
   }
 }

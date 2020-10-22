@@ -9,7 +9,10 @@ import { ValueType } from '../../../definitions/types'
 import { ProjectInterface } from '../../../definitions/project-interfaces'
 import { ProjectFieldInterface } from '../../../definitions/project-field-interfaces'
 import { InitProjectFieldColumns } from '../../../definitions/init-project-field-columns'
-import { get, post } from '../../../biz/api'
+import { post } from '../../../biz/api'
+import { getProjectIds, getProject } from '../../../biz/DBAccessor/projects-data'
+import { getProjectFields } from '../../../biz/DBAccessor/project-fields-data'
+
 
 interface ProjectInfo {
   project: ProjectInterface,
@@ -44,17 +47,24 @@ const columns = [
 ]
 
 export const getStaticPaths = async() => {
-  const res = await get("/api/get-projectids")
+  const projectIds = await getProjectIds()
 
   return {
-    paths: res.response.map((projectId: { id: string }) => { return { params: projectId } }),
+    paths: projectIds.map((projectId: { id: string }) => { return { params: projectId } }),
     fallback: false,
   }
 }
 
 export const getStaticProps = async ( params: { params: { id: string } } ) => {
-  const api = await get("/api/get-project-fields", params)
-  const props = api.response
+  const projectId = parseInt(params.params.id)
+  const project = await getProject(projectId)
+  const projectFields = await getProjectFields(projectId)
+
+  const props = { 
+    project: project[0],
+    projectFields: projectFields
+  } 
+
   return {
     props
   }

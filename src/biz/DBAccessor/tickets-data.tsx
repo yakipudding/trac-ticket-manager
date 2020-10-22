@@ -40,7 +40,9 @@ export const getTickets = async (visible?: boolean) => {
     ${visible ? 'WHERE P.Visible = 1 AND T.Visible = 1' : ''}
     ORDER BY T.ProjectId, T.Category, T.DueAssign, T.TicketId
   `
-  const result = await execQuery(query)
+  let result = await execQuery(query)
+  // Date型のJSONシリアライズエラーが発生するため変換
+  result = JSON.parse(JSON.stringify(result))
 
   return result
 }
@@ -91,7 +93,9 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
     AND (@CompleteDateTo IS NULL OR T.[CompleteDate] <= @CompleteDateTo)
     ORDER BY T.[CompleteDate] DESC
   `
-  const result = await execQuery(query, params)
+  let result = await execQuery(query, params)
+  // Date型のJSONシリアライズエラーが発生するため変換
+  result = JSON.parse(JSON.stringify(result))
 
   return result
 }

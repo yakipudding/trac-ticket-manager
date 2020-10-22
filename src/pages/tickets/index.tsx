@@ -1,5 +1,5 @@
 import React from 'react';
-import { get } from '../../biz/api'
+import { getProjects } from '../../biz/DBAccessor/projects-data'
 import { getColumnsByFields } from '../../biz/get-columns-by-fields'
 import AllTicketsTable from '../../components/all-tickets-table'
 import { InitProjectFieldColumns } from '../../definitions/init-project-field-columns'
@@ -11,8 +11,9 @@ interface Props {
 }
 
 export const getStaticProps = async () => {
-  const api = await get("/api/get-projects")
-  const props = api.response
+  const projects = await getProjects(false)
+  const props = { projects: projects }
+
   return {
     props
   }

@@ -1,13 +1,13 @@
-import { getProjects } from '../../biz/DBAccessor/projects-data'
-import { getVisibleProjectFields } from '../../biz/DBAccessor/project-fields-data'
-import { getTickets } from '../../biz/DBAccessor/tickets-data'
-import { ProjectInterface } from '../../definitions/project-interfaces'
-import { ProjectFieldInterface } from '../../definitions/project-field-interfaces'
-import { TicketInterface } from '../../definitions/ticket-interfaces'
-import { TicketInfoInterface } from '../../definitions/api-interfaces'
-import { EditableType } from '../../definitions/types'
+import { getProjects } from './DBAccessor/projects-data'
+import { getVisibleProjectFields } from './DBAccessor/project-fields-data'
+import { getTickets } from './DBAccessor/tickets-data'
+import { ProjectInterface } from '../definitions/project-interfaces'
+import { ProjectFieldInterface } from '../definitions/project-field-interfaces'
+import { TicketInterface } from '../definitions/ticket-interfaces'
+import { TicketInfoInterface } from '../definitions/api-interfaces'
+import { EditableType } from '../definitions/types'
 
-export default async (req: any, res: any) => {
+export const getVisibleTickets = async () => {
   const projects: ProjectInterface[] = await getProjects(true)
   const projectFields: ProjectFieldInterface[] = await getVisibleProjectFields()
   const tickets: TicketInterface[] = await getTickets(true)
@@ -55,9 +55,5 @@ export default async (req: any, res: any) => {
     })
   })
 
-  res.status(200).json(
-    { 
-      response: response
-    } 
-  ) 
+  return response
 }

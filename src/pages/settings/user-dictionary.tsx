@@ -4,6 +4,7 @@ import MaterialTable from 'material-table';
 import { UserDictionaryInterface } from '../../definitions/setting-interfaces'
 import { ValueType, EditableType } from '../../definitions/types'
 import { get, post } from '../../biz/api'
+import { getUserDictionary } from '../../biz/DBAccessor/user-dictionary-data'
 
 interface Props {
   userDictionary: UserDictionaryInterface[]
@@ -23,8 +24,8 @@ const columns = [
 ]
 
 export const getStaticProps = async () => {
-  const api = await get("/api/get-user-dictionary")
-  const props = api.response
+  const userDictionary = await getUserDictionary()
+  const props = { userDictionary: userDictionary }
 
   return {
     props

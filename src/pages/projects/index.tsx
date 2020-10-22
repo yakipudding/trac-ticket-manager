@@ -1,9 +1,10 @@
 import React from 'react';
 import Router from 'next/router'
 import MaterialTable from 'material-table';
+import { getProjects } from '../../biz/DBAccessor/projects-data'
 import { ProjectInterface, ProjectTableInterface } from '../../definitions/project-interfaces'
 import { ValueType, EditableType } from '../../definitions/types'
-import { get, post } from '../../biz/api'
+import { post } from '../../biz/api'
 
 interface Props {
   projects: ProjectInterface[]
@@ -29,8 +30,8 @@ const columns = [
 ]
 
 export const getStaticProps = async () => {
-  const api = await get("/api/get-projects", { 'visible': true })
-  const props = api.response
+  const projects = await getProjects(true)
+  const props = { projects: projects }
 
   return {
     props
