@@ -1,5 +1,4 @@
 import React from 'react';
-import { get, post } from '../../../biz/api'
 import { getProjectIds, getProject } from '../../../biz/DBAccessor/projects-data'
 import { getProjectFields } from '../../../biz/DBAccessor/project-fields-data'
 import { getAllTickets } from '../../../biz/DBAccessor/tickets-data'

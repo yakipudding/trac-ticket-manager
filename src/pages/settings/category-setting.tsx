@@ -3,7 +3,7 @@ import Router from 'next/router'
 import MaterialTable from 'material-table';
 import { CategorySettingInterface } from '../../definitions/setting-interfaces'
 import { ValueType } from '../../definitions/types'
-import { get, post } from '../../biz/api'
+import { post } from '../../biz/api'
 import { getCategorySetting } from '../../biz/DBAccessor/category-setting-data'
 
 interface Props {

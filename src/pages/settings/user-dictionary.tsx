@@ -2,8 +2,8 @@ import React from 'react';
 import Router from 'next/router'
 import MaterialTable from 'material-table';
 import { UserDictionaryInterface } from '../../definitions/setting-interfaces'
-import { ValueType, EditableType } from '../../definitions/types'
-import { get, post } from '../../biz/api'
+import { ValueType } from '../../definitions/types'
+import { post } from '../../biz/api'
 import { getUserDictionary } from '../../biz/DBAccessor/user-dictionary-data'
 
 interface Props {

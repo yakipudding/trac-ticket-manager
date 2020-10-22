@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import { TicketInfoInterface } from '../definitions/api-interfaces'
-import { get } from '../biz/api'
 import { getVisibleTickets } from '../biz/get-visible-tickets'
 import TicketsTable from '../components/tickets-table'
 
