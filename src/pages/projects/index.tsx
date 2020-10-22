@@ -6,6 +6,7 @@ import { ProjectInterface, ProjectTableInterface } from '../../definitions/proje
 import { ValueType, EditableType } from '../../definitions/types'
 import { post } from '../../biz/api'
 
+// プロジェクト一覧
 interface Props {
   projects: ProjectInterface[]
 }
