@@ -11,3 +11,9 @@ export interface AllTicketInfoInterface {
   columns: Column<TicketInterface>[];
   tickets: TicketInterface[];
 }
+
+export interface GetAllTicketsParams {
+  ProjectIds: string[];
+  CompleteDateFrom: string;
+  CompleteDateTo: string;
+}
