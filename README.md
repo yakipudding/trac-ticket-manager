@@ -41,6 +41,19 @@ Tracのチケット管理アプリ
 ### 2. ソース、npmパッケージ取得
 - `git clone https://github.com/yakipudding/trac-ticket-manager.git`
 - `npm install .`
+- src/settingsフォルダ下に以下の内容で`dbconfig.tsx`を作成
+
+```js
+export const dbconfig = {
+  user: 'DBユーザ名',
+  password: 'DBパスワード',
+  server: 'DBサーバ\\DBインスタンス名',
+  database: 'DB名',
+  options: {
+    enableArithAbort: false,
+  }
+}
+```
 
 ### 3. テーブル作成
 - 作成したDBインスタンスに対してscriptフォルダ下のスクリプトを実行
