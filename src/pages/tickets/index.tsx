@@ -10,7 +10,7 @@ interface Props {
   projects: ProjectInterface[]
 }
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const projects = await getProjects(false)
   const props = { projects: projects }
 

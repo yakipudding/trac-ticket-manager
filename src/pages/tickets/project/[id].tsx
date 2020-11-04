@@ -15,16 +15,7 @@ interface Props {
   tickets: TicketInterface[],
 }
 
-export const getStaticPaths = async() => {
-  const projectIds = await getProjectIds()
-
-  return {
-    paths: projectIds.map((projectId: { id: string }) => { return { params: projectId } }),
-    fallback: false,
-  }
-}
-
-export const getStaticProps = async ( params: { params: { id: string } } ) => {
+export const getServerSideProps = async ( params: { params: { id: string } } ) => {
   const projectId = params.params.id
   const projectIdNum = parseInt(params.params.id)
   const project = await getProject(projectIdNum)

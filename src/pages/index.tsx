@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const visibleTickets = await getVisibleTickets()
   return {
     props: {

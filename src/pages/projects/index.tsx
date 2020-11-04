@@ -30,7 +30,7 @@ const columns = [
   },
 ]
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const projects = await getProjects(true)
   const props = { projects: projects }
 

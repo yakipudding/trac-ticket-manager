@@ -46,16 +46,7 @@ const columns = [
   },
 ]
 
-export const getStaticPaths = async() => {
-  const projectIds = await getProjectIds()
-
-  return {
-    paths: projectIds.map((projectId: { id: string }) => { return { params: projectId } }),
-    fallback: false,
-  }
-}
-
-export const getStaticProps = async ( params: { params: { id: string } } ) => {
+export const getServerSideProps = async ( params: { params: { id: string } } ) => {
   const projectId = parseInt(params.params.id)
   const project = await getProject(projectId)
   const projectFields = await getProjectFields(projectId)

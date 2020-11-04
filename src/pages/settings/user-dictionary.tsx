@@ -24,7 +24,7 @@ const columns = [
   },
 ]
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const userDictionary = await getUserDictionary()
   const props = { userDictionary: userDictionary }
 

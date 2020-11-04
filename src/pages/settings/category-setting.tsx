@@ -24,7 +24,7 @@ const columns = [
   },
 ]
 
-export const getStaticProps = async () => {
+export const getServerSideProps = async () => {
   const categorySetting = await getCategorySetting()
   const props = { categorySetting: categorySetting }
 
