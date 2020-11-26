@@ -80,12 +80,13 @@ export default (props: ProjectInfo) => {
       const queryIndex = customQueryUrl.indexOf("query?")
       const colIndex = customQueryUrl.indexOf("&col=")
       const orderIndex = customQueryUrl.indexOf("&order=")
+      console.log(orderIndex)
 
       setProject({ 
         ...project,
         Url: customQueryUrl.substring(0, queryIndex),
         UrlConditions: customQueryUrl.substring(queryIndex, colIndex),
-        UrlColumns: customQueryUrl.substring(colIndex, orderIndex),
+        UrlColumns: orderIndex === -1 ? customQueryUrl.substring(colIndex) : customQueryUrl.substring(colIndex, orderIndex),
         CustomQueryUrl: event.target.value,
       });
 
