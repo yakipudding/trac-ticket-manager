@@ -4,6 +4,7 @@ import { createStyles, Theme, makeStyles } from '@material-ui/core/styles';
 import { Column } from 'material-table';
 import MaterialTable from 'material-table';
 import HistoryIcon from '@material-ui/icons/History';
+import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 import Link from '@material-ui/core/Link';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
@@ -27,6 +28,7 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 20,
       fontWeight: 'bold',
       paddingTop: 4,
+      marginRight: theme.spacing(1),
     },
     margin: {
       margin: theme.spacing(1),
@@ -99,6 +101,11 @@ const TicketsTable = (props: TicketsTableProps) => {
         <Tooltip title="過去チケット">
           <IconButton aria-label="old" className={classes.margin} href={`/tickets/project/${props.tickets[0].ProjectId}`}>
             <HistoryIcon />
+          </IconButton>
+        </Tooltip>
+        <Tooltip title="項目設定">
+          <IconButton aria-label="field" className={classes.margin} href={`/projects/columns/${props.tickets[0].ProjectId}`}>
+            <ViewColumnIcon />
           </IconButton>
         </Tooltip>
       </div>
