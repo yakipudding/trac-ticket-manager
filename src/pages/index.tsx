@@ -33,9 +33,10 @@ export default (props: Props) => {
     <>
       {props.ticketInfos.map(ticketInfo => 
         (
-          <div key={ticketInfo.tickets[0].ProjectId} className={classes.table}>
+          <div key={ticketInfo.project.ProjectId} className={classes.table}>
             <TicketsTable
               columns={ticketInfo.columns}
+              project={ticketInfo.project}
               tickets={ticketInfo.tickets}
               mode='project'
             />

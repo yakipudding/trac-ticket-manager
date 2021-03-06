@@ -7,7 +7,7 @@ export const getTickets = async (visible?: boolean) => {
       [TicketId]
       ,[TracId]
       ,[Category]
-      ,S.[StatusName] AS Status
+      ,[Status]
       ,[Memo]
       ,T.[Visible]
       ,T.[ProjectId]
@@ -33,8 +33,6 @@ export const getTickets = async (visible?: boolean) => {
       ,P.[ProjectName]
       ,P.[Url]
     FROM [dbo].[Tickets] T
-    LEFT JOIN [StatusDictionary] S
-    ON T.[Status] = S.[Status]
     LEFT JOIN [Projects] P
     ON T.[ProjectId] = P.[ProjectId]
     ${visible ? 'WHERE P.Visible = 1 AND T.Visible = 1' : ''}
@@ -98,20 +96,32 @@ export const insertTicket = async ( ticket: TicketInterface ) => {
   const params = [
     { field: "TracId", value: ticket.TracId },
     { field: "Category", value: ticket.Category },
+    { field: "Summary", value: ticket.Summary },
+    { field: "Status", value: ticket.Status },
     { field: "Memo", value: ticket.Memo },
+    { field: "DueAssign", value: ticket.DueAssign },
+    { field: "DueClose", value: ticket.DueClose },
     { field: "ProjectId", value: ticket.ProjectId },
   ]
   const query = `
     INSERT INTO [dbo].[Tickets]
     ([TracId]
     ,[Category]
+    ,[Summary]
+    ,[Status]
     ,[Memo]
+    ,[DueAssign]
+    ,[DueClose]
     ,[Visible]
     ,[ProjectId])
   VALUES
-    (@TracId
+    (ISNULL(@TracId,0)
     ,@Category
+    ,@Summary
+    ,@Status
     ,@Memo
+    ,@DueAssign
+    ,@DueClose
     ,1
     ,@ProjectId
   )
@@ -125,14 +135,22 @@ export const updateTicketByTable = async ( ticket: TicketInterface ) => {
   const params = [
     { field: 'TicketId', value: ticket.TicketId },
     { field: "Category", value: ticket.Category },
+    { field: "Summary", value: ticket.Summary },
+    { field: "Status", value: ticket.Status },
     { field: "Memo", value: ticket.Memo },
+    { field: "DueAssign", value: ticket.DueAssign },
+    { field: "DueClose", value: ticket.DueClose },
     { field: "Visible", value: ticket.Visible },
   ]
   const query = `
     UPDATE [dbo].[Tickets]
     SET
        [Category] = @Category
+      ,[Summary] = @Summary
+      ,[Status] = @Status
       ,[Memo] = @Memo
+      ,[DueAssign] = @DueAssign
+      ,[DueClose] = @DueClose
       ,[Visible] = @Visible
     WHERE TicketId = @TicketId
   `

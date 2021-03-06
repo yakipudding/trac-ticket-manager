@@ -28,6 +28,11 @@ const columns = [
     field: 'Url',
     editable: 'never' as EditableType<ProjectInterface>,
   },
+  { title: 'Trac管理',
+    field: 'TracFlag',
+    type: 'boolean' as ValueType,
+    initialEditValue: true,
+  },
 ]
 
 export const getServerSideProps = async () => {
@@ -84,7 +89,7 @@ export default ( props: Props) => {
       options={{
         paging: false,
         rowStyle: rowData => ({
-          backgroundColor: rowData.Visible && !rowData.Url ? '#fce4ec' : '#FFF'
+          backgroundColor: rowData.Visible && !rowData.Url && rowData.TracFlag ? '#fce4ec' : '#FFF'
         }),
       }}
       editable={{

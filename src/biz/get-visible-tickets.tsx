@@ -23,16 +23,18 @@ export const getVisibleTickets = async () => {
       },
       { title: 'ID',
         field: 'TracId',
-        editable: 'onAdd' as editableType,
+        editable: project.TracFlag ? 'onAdd' as editableType : 'never' as editableType,
+        hidden: !project.TracFlag,
       },
       { title: '概要',
         field: 'Summary',
         width: 300,
-        editable: 'never' as editableType,
+        editable: project.TracFlag ? 'never' as editableType : 'always' as editableType,
       },
       { title: '状態',
         field: 'Status',
-        editable: 'never' as editableType,
+        editable: project.TracFlag ? 'never' as editableType : 'always' as editableType,
+        lookup: { 'new': '新規', 'assigned': '割当', 'accepted': '仕掛', 'closed': '完了', 'reopened': '再開' },
       },
       { title: 'メモ',
         field: 'Memo',
@@ -44,13 +46,14 @@ export const getVisibleTickets = async () => {
         columns.push({
           title: field.FieldName,
           field: field.Field,
-          editable: 'never' as editableType,
+          editable: project.TracFlag ? 'never' as editableType : 'always' as editableType,
         })
       }
     })
 
     response.push({
       columns: columns,
+      project: project,
       tickets: tickets.filter(ticket => ticket.ProjectId === project.ProjectId),
     })
   })

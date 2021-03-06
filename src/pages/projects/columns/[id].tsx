@@ -63,6 +63,8 @@ export const getServerSideProps = async ( params: { params: { id: string } } ) =
 
 export default (props: ProjectInfo) => {
   const classes = useStyles();
+
+  const tracFlag = props.project.TracFlag === "true" ? true : false
   
   const [project, setProject] = React.useState<ProjectInterface>({
     ...props.project,
@@ -141,6 +143,21 @@ export default (props: ProjectInfo) => {
     setOpen(false);
   }
   
+  const CreateTableWithoutTrac = () => {
+    // Trac管理しない項目テーブルの作成
+    const cols = ["summary", "due_assign", "due_close"]
+    let projectFields = props.projectFields.length === 0 ? InitProjectFieldColumns(props.project.ProjectId) : props.projectFields
+    cols.map((col, index) => {
+      if(col !== ""){
+        let id = projectFields.findIndex(field => field.TracField === col)
+        projectFields[id].Order = index * 10
+        projectFields[id].Visible = true
+      }
+    })
+    projectFields.sort(ProjectFieldOrderSort)
+    setProjectFields(projectFields)
+  }
+
   const handleDialogClose = () => {
     setOpen(false);
   };
@@ -230,8 +247,11 @@ export default (props: ProjectInfo) => {
           }}
           fullWidth 
         />
-        <Button variant="contained" color="primary" onClick={onClickButton}>
+        <Button variant="contained" color="primary" onClick={onClickButton} disabled={!tracFlag}>
           URL項目から項目一覧作成
+        </Button>
+        <Button variant="contained" color="primary" onClick={CreateTableWithoutTrac} disabled={tracFlag}>
+          メモプロジェクト用の項目一覧作成
         </Button>
         <MaterialTable
           title="項目一覧"

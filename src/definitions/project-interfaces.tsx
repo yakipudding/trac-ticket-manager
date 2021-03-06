@@ -10,6 +10,7 @@ export interface ProjectInterface {
   UrlColumnsAll: string,
   Order: string,
   Visible: string,
+  TracFlag: string,
   type?: ValueType,
   [key: string]: any,
 }

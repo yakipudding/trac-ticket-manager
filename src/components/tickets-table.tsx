@@ -8,12 +8,14 @@ import ViewColumnIcon from '@material-ui/icons/ViewColumn';
 import Link from '@material-ui/core/Link';
 import Tooltip from '@material-ui/core/Tooltip';
 import IconButton from '@material-ui/core/IconButton';
+import { ProjectInterface } from '../definitions/project-interfaces'
 import { TicketInterface } from '../definitions/ticket-interfaces'
 import { post } from '../biz/api'
 import MultiSetCategoryDialog from './multiset-category-dialog'
 
 interface TicketsTableProps {
   columns: Column<TicketInterface>[];
+  project?: ProjectInterface;
   tickets: TicketInterface[];
   mode: 'all' | 'project',
 }
@@ -43,7 +45,7 @@ const ColumnsSetting = (propColumns: Column<TicketInterface>[]) => {
   let idColumn = { 
     ...columns[idColumnIndex], 
     render: (rowData: TicketInterface) => {
-      return <Link href={`${rowData.Url}ticket/${rowData.TracId}`} target="_blank">{rowData.TracId}</Link>
+      return rowData?.Url ? <Link href={`${rowData.Url}ticket/${rowData.TracId}`} target="_blank">{rowData.TracId}</Link> : null
     },
   }
   columns[idColumnIndex] = idColumn
@@ -97,14 +99,14 @@ const TicketsTable = (props: TicketsTableProps) => {
     :
     (
       <div className={classes.container}>
-        <span className={classes.title}>{props.tickets[0].ProjectName}</span>
+        <span className={classes.title}>{props.project.ProjectName}</span>
         <Tooltip title="過去チケット">
-          <IconButton aria-label="old" className={classes.margin} href={`/tickets/project/${props.tickets[0].ProjectId}`}>
+          <IconButton aria-label="old" className={classes.margin} href={`/tickets/project/${props.project.ProjectId}`}>
             <HistoryIcon />
           </IconButton>
         </Tooltip>
         <Tooltip title="項目設定">
-          <IconButton aria-label="field" className={classes.margin} href={`/projects/columns/${props.tickets[0].ProjectId}`}>
+          <IconButton aria-label="field" className={classes.margin} href={`/projects/columns/${props.project.ProjectId}`}>
             <ViewColumnIcon />
           </IconButton>
         </Tooltip>
@@ -120,10 +122,12 @@ const TicketsTable = (props: TicketsTableProps) => {
   }
 
   const onRowAdd= async (newData : TicketInterface) => {
-    newData = { ...newData, ProjectId: props.tickets[0].ProjectId}
+    newData = { ...newData, ProjectId: props.project.ProjectId}
     // DB更新
     await post("/api/insert-ticket", newData)
-    await post("/api/trac-get-ticket", newData)
+    if(props.project.TracFrag){
+      await post("/api/trac-get-ticket", newData)
+    }
     // ticket-idを取得するためリロード
     Router.reload()
   }

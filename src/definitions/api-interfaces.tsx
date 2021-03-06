@@ -1,8 +1,10 @@
 import { TicketInterface } from './ticket-interfaces'
 import { Column } from 'material-table';
+import { ProjectInterface } from './project-interfaces';
 
 export interface TicketInfoInterface { 
   columns: Column<TicketInterface>[];
+  project: ProjectInterface;
   tickets: TicketInterface[];
 }
 

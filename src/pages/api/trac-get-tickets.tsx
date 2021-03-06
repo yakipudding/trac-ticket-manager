@@ -9,7 +9,7 @@ import { getTickets } from '../../biz/DBAccessor/tickets-data'
 const sql = require('mssql')
 
 export default async (req: any, res: any) => {
-  const projects: ProjectInterface[] = await getProjects(true)
+  const projects: ProjectInterface[] = await getProjects(true, true)
   const tickets: TicketInterface[] = await getTickets(true)
   
   let promises = projects.map(async (project) => {
