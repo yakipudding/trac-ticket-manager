@@ -14,3 +14,7 @@ ALTER TABLE [dbo].[Projects] ADD
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[StatusDictionary]') AND type in (N'U'))
 DROP TABLE [dbo].[StatusDictionary]
 GO
+
+-- 列追加
+ALTER TABLE [dbo].[Tickets] ADD
+	[LastOwnerDate] [datetime] NULL

@@ -27,6 +27,7 @@ export interface TicketInterface {
   FreeField3: string,
   FreeField4: string,
   FreeField5: string,
+  LastOwnerDate: Date | null,
   Url?: string,
   editable?: EditableType<TicketInterface>,
   hidden?: boolean,

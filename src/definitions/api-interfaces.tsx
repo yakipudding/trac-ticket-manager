@@ -14,6 +14,11 @@ export interface AllTicketInfoInterface {
   tickets: TicketInterface[];
 }
 
+export interface TodayTicketInfoInterface {
+  columns: Column<TicketInterface>[];
+  tickets: TicketInterface[];
+}
+
 export interface GetAllTicketsParams {
   ProjectIds: string[];
   CompleteDateFrom: string;

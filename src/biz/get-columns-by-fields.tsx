@@ -41,6 +41,7 @@ export const getColumnsByFields = (fields: ProjectFieldInterface[], projectColum
       editable: 'never' as editableType,
       hidden: true,
       searchable: false,
+      lookup: { 'new': '起票', 'assigned': '未着手', 'accepted': '仕掛', 'closed': '完了', 'reopened': '再開' },
     },
     { title: 'メモ',
       field: 'Memo',

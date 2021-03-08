@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/Button';
 import ReplayIcon from '@material-ui/icons/Replay';
 import SettingsIcon from '@material-ui/icons/Settings';
 import HistoryIcon from '@material-ui/icons/History';
+import TodayIcon from '@material-ui/icons/Today';
 import Link from '@material-ui/core/Link';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -61,6 +62,11 @@ export default function NavBar() {
           <Tooltip title="過去チケット">
             <IconButton aria-label="old" color="inherit" href='/tickets'>
               <HistoryIcon />
+            </IconButton>
+          </Tooltip>
+          <Tooltip title="今日のチケット">
+            <IconButton aria-label="today" color="inherit" href='/tickets/today'>
+              <TodayIcon />
             </IconButton>
           </Tooltip>
           <div className={classes.grow} />

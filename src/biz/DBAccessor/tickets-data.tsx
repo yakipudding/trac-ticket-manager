@@ -30,6 +30,7 @@ export const getTickets = async (visible?: boolean) => {
       ,CONVERT(varchar(10),[DueClose],111) AS [DueClose]
       ,[Complete]
       ,[Reporter]
+      ,CONVERT(varchar(10),[LastOwnerDate],111) AS [LastOwnerDate]
       ,P.[ProjectName]
       ,P.[Url]
     FROM [dbo].[Tickets] T
@@ -76,6 +77,7 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
       ,CONVERT(varchar(10),[DueClose],111) AS [DueClose]
       ,[Complete]
       ,[Reporter]
+      ,CONVERT(varchar(10),[LastOwnerDate],111) AS [LastOwnerDate]
       ,P.[ProjectName]
       ,P.[Url]
     FROM [dbo].[Tickets] T
@@ -87,6 +89,67 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
     ORDER BY T.[CompleteDate] DESC
   `
   const result = await execQuery(query, params)
+  return result
+}
+
+export const getTodayTickets = async () => {
+  const query = `
+    SELECT
+      [TicketId]
+      ,[TracId]
+      ,[Category]
+      ,[Status]
+      ,[Memo]
+      ,T.[Visible]
+      ,T.[ProjectId]
+      ,[Summary]
+      ,[Owner]
+      ,[FreeField1]
+      ,[FreeField2]
+      ,[FreeField3]
+      ,[FreeField4]
+      ,[FreeField5]
+      ,CONVERT(varchar(10),[CompleteDate],111) AS [CompleteDate]
+      ,[Type]
+      ,[Priority]
+      ,[Milestone]
+      ,[Component]
+      ,[Version]
+      ,CONVERT(varchar(10),[CreateTime],111) AS [CreateTime]
+      ,CONVERT(varchar(10),[ChangeTime],111) AS [ChangeTime]
+      ,CONVERT(varchar(10),[DueAssign],111) AS [DueAssign]
+      ,CONVERT(varchar(10),[DueClose],111) AS [DueClose]
+      ,[Complete]
+      ,[Reporter]
+      ,CONVERT(varchar(10),[LastOwnerDate],111) AS [LastOwnerDate]
+      ,P.[ProjectName]
+      ,P.[Url]
+    FROM [dbo].[Tickets] T
+    LEFT JOIN [Projects] P
+    ON T.[ProjectId] = P.[ProjectId]
+    WHERE
+    (P.TracFlag = 1 AND T.LastOwnerDate = CONVERT(date, GETDATE()))
+    OR
+    (
+      P.TracFlag = 0
+      AND
+      (
+        T.DueAssign IS NULL
+        OR
+        T.DueClose IS NULL
+        OR
+        T.DueAssign <= CONVERT(date, GETDATE())
+      )
+      AND
+      (
+        T.CompleteDate IS NULL
+        OR
+        T.CompleteDate = CONVERT(date, GETDATE())
+      )
+    )
+    ORDER BY P.[Order], T.Category, T.DueClose, T.DueAssign, T.TicketId
+  `
+  const result = await execQuery(query)
   return result
 }
 
@@ -111,7 +174,9 @@ export const insertTicket = async ( ticket: TicketInterface ) => {
     ,[DueAssign]
     ,[DueClose]
     ,[Visible]
-    ,[ProjectId])
+    ,[ProjectId]
+    ,[LastOwnerDate]
+    )
   VALUES
     (ISNULL(@TracId,0)
     ,CASE WHEN @Category = '' THEN NULL ELSE @Category END
@@ -122,6 +187,7 @@ export const insertTicket = async ( ticket: TicketInterface ) => {
     ,CASE WHEN @DueClose = '' THEN NULL ELSE @DueClose END
     ,1
     ,@ProjectId
+    ,CONVERT(date, GETDATE())
   )
   `
   execQuery(query, params)
@@ -165,7 +231,7 @@ export const updateTicketUnvisible = async ( ticket: TicketInterface ) => {
     UPDATE [dbo].[Tickets]
     SET
        [Visible] = 0
-      ,[CompleteDate] = GETDATE()
+      ,[CompleteDate] = CONVERT(date, GETDATE())
     WHERE TicketId = @TicketId
   `
   execQuery(query, params)
@@ -193,7 +259,7 @@ export const updateTicketsUnvisible = async (ticketIds: string[]) => {
     UPDATE [dbo].[Tickets]
     SET
        [Visible] = 0
-      ,[CompleteDate] = GETDATE()
+      ,[CompleteDate] = CONVERT(date, GETDATE())
     WHERE TicketId IN (${ ticketIds.join(",")})
   `
   execQuery(query)
