@@ -11,6 +11,7 @@ import IconButton from '@material-ui/core/IconButton';
 import { ProjectInterface } from '../definitions/project-interfaces'
 import { TicketInterface } from '../definitions/ticket-interfaces'
 import { post } from '../biz/api'
+import { config } from '../settings/config'
 import MultiSetCategoryDialog from './multiset-category-dialog'
 
 interface TicketsTableProps {
@@ -205,6 +206,8 @@ const TicketsTable = (props: TicketsTableProps) => {
     tableRef.current.onAllSelected(false)
   }
 
+  const nowDate = new Date(new Date(Date.now()).toLocaleDateString()).getTime()
+
   return(
     <>
       <MaterialTable
@@ -214,7 +217,7 @@ const TicketsTable = (props: TicketsTableProps) => {
         data={state}
         options={props.mode === 'all' ? 
           {
-            pageSize: 10,
+            paging: false,
             selection: true,
             padding: 'dense',
             search: false,
@@ -230,6 +233,16 @@ const TicketsTable = (props: TicketsTableProps) => {
             sorting: false,
             search: false,
             draggable: false,
+            rowStyle: rowData => ({
+              backgroundColor: 
+                  rowData.Status === 'closed' ? '#eeeeee'
+                : rowData.Owner && (rowData.Owner as string).indexOf(config.name) === -1 ? '#f5f5f5' // 担当が自分以外
+                : !rowData.DueClose ? '#ffffff'
+                : rowData.DueAssign && nowDate < new Date(rowData.DueAssign).getTime() ? '#f5f5f5'
+                : (rowData.Status === 'new' || rowData.Status === 'assigned') ? '#fce4ec'
+                : new Date(rowData.DueClose).getTime() <= nowDate ? '#fce4ec'
+                : '#ffffff'
+            }),
           }}
         editable={{
           onRowAdd: props.mode === 'all' ? undefined : onRowAdd,

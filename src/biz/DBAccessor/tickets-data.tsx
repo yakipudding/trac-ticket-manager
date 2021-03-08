@@ -36,7 +36,7 @@ export const getTickets = async (visible?: boolean) => {
     LEFT JOIN [Projects] P
     ON T.[ProjectId] = P.[ProjectId]
     ${visible ? 'WHERE P.Visible = 1 AND T.Visible = 1' : ''}
-    ORDER BY T.ProjectId, T.Category, T.DueAssign, T.TicketId
+    ORDER BY T.ProjectId, T.Category, T.DueClose, T.DueAssign, T.TicketId
   `
   const result = await execQuery(query)
   return result
@@ -53,7 +53,7 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
       [TicketId]
       ,[TracId]
       ,[Category]
-      ,S.[StatusName] AS Status
+      ,[Status]
       ,[Memo]
       ,T.[Visible]
       ,T.[ProjectId]
@@ -79,8 +79,6 @@ export const getAllTickets = async (projectIds: string[], completeDateFrom: stri
       ,P.[ProjectName]
       ,P.[Url]
     FROM [dbo].[Tickets] T
-    LEFT JOIN [StatusDictionary] S
-    ON T.[Status] = S.[Status]
     LEFT JOIN [Projects] P
     ON T.[ProjectId] = P.[ProjectId]
     WHERE T.[ProjectId] IN (${projectIds.join(',')})
@@ -116,12 +114,12 @@ export const insertTicket = async ( ticket: TicketInterface ) => {
     ,[ProjectId])
   VALUES
     (ISNULL(@TracId,0)
-    ,@Category
+    ,CASE WHEN @Category = '' THEN NULL ELSE @Category END
     ,@Summary
     ,@Status
     ,@Memo
-    ,@DueAssign
-    ,@DueClose
+    ,CASE WHEN @DueAssign = '' THEN NULL ELSE @DueAssign END
+    ,CASE WHEN @DueClose = '' THEN NULL ELSE @DueClose END
     ,1
     ,@ProjectId
   )
@@ -145,12 +143,12 @@ export const updateTicketByTable = async ( ticket: TicketInterface ) => {
   const query = `
     UPDATE [dbo].[Tickets]
     SET
-       [Category] = @Category
+       [Category] = CASE WHEN @Category = '' THEN NULL ELSE @Category END
       ,[Summary] = @Summary
       ,[Status] = @Status
       ,[Memo] = @Memo
-      ,[DueAssign] = @DueAssign
-      ,[DueClose] = @DueClose
+      ,[DueAssign] = CASE WHEN @DueAssign = '' THEN NULL ELSE @DueAssign END
+      ,[DueClose] = CASE WHEN @DueClose = '' THEN NULL ELSE @DueClose END
       ,[Visible] = @Visible
     WHERE TicketId = @TicketId
   `
@@ -168,66 +166,6 @@ export const updateTicketUnvisible = async ( ticket: TicketInterface ) => {
     SET
        [Visible] = 0
       ,[CompleteDate] = GETDATE()
-    WHERE TicketId = @TicketId
-  `
-  execQuery(query, params)
-
-  return true
-}
-
-export const updateTicketByTrac = async ( ticket: TicketInterface ) => {
-  const params = [
-    { field: 'TicketId', value: ticket.TicketId },
-    { field: "Category", value: ticket.Category },
-    { field: "Status", value: ticket.Status },
-    { field: "Visible", value: ticket.Visible },
-    { field: "ProjectId", value: ticket.ProjectId },
-    { field: "Summary", value: ticket.Summary },
-    { field: "Owner", value: ticket.Owner },
-    { field: "FreeField1", value: ticket.FreeField1 },
-    { field: "FreeField2", value: ticket.FreeField2 },
-    { field: "FreeField3", value: ticket.FreeField3 },
-    { field: "FreeField4", value: ticket.FreeField4 },
-    { field: "FreeField5", value: ticket.FreeField5 },
-    { field: "CompleteDate", value: ticket.CompleteDate },
-    { field: "Type", value: ticket.Type },
-    { field: "Priority", value: ticket.Priority },
-    { field: "Milestone", value: ticket.Milestone },
-    { field: "Component", value: ticket.Component },
-    { field: "Version", value: ticket.Version },
-    { field: "CreateTime", value: ticket.CreateTime },
-    { field: "ChangeTime", value: ticket.ChangeTime },
-    { field: "DueAssign", value: ticket.DueAssign },
-    { field: "DueClose", value: ticket.DueClose },
-    { field: "Complete", value: ticket.Complete },
-    { field: "Reporter", value: ticket.Reporter },
-  ]
-  const query = `
-    UPDATE [dbo].[Tickets]
-    SET
-       [Category] = @Category
-      ,[Status] = @Status
-      ,[Visible] = @Visible
-      ,[ProjectId] = @ProjectId
-      ,[Summary] = @Summary
-      ,[Owner] = @Owner
-      ,[FreeField1] = @FreeField1
-      ,[FreeField2] = @FreeField2
-      ,[FreeField3] = @FreeField3
-      ,[FreeField4] = @FreeField4
-      ,[FreeField5] = @FreeField5
-      ,[CompleteDate] = @CompleteDate
-      ,[Type] = @Type
-      ,[Priority] = @Priority
-      ,[Milestone] = @Milestone
-      ,[Component] = @Component
-      ,[Version] = @Version
-      ,[CreateTime] = @CreateTime
-      ,[ChangeTime] = @ChangeTime
-      ,[DueAssign] = @DueAssign
-      ,[DueClose] = @DueClose
-      ,[Complete] = @Complete
-      ,[Reporter] = @Reporter
     WHERE TicketId = @TicketId
   `
   execQuery(query, params)

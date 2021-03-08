@@ -41,7 +41,9 @@ Tracのチケット管理アプリ
 ### 2. ソース、npmパッケージ取得
 - `git clone https://github.com/yakipudding/trac-ticket-manager.git`
 - `npm install .`
-- src/settingsフォルダ下に以下の内容で`dbconfig.tsx`を作成
+
+### 3. 設定ファイル作成
+1. src/settingsフォルダ下に以下の内容で`dbconfig.tsx`を作成
 
 ```js
 export const dbconfig = {
@@ -55,16 +57,39 @@ export const dbconfig = {
 }
 ```
 
-### 3. テーブル作成
+2. src/settingsフォルダ下に以下の内容で`config.tsx`を作成
+
+```js
+export const config = {
+  // Trac上の自分の名前(日本語名)
+  name: '管理',
+}
+```
+
+### 4. テーブル作成
 - 作成したDBインスタンスに対してscriptフォルダ下のスクリプトを実行
 
-### 4. ビルド
+### 5. ビルド
 - `npm run build`
 
-### 5. デプロイ
+### 6. デプロイ
 - `npm run start`
   - [localhost:3000](http://localhost:3000)を開くとTracTicketManagerが表示されます
   - PC起動時にTracTicketManagerを起動させたいときは上記コマンドをタスクスケジューラで起動時に実行させます
+
+### 7. Trac日本語名設定
+ユーザ辞書設定ページでTracの日本語名設定をする、またはDBに直接INSERTする
+
+```sql
+INSERT INTO [dbo].[UserDictionary] 
+           ([User]
+           ,[UserName]
+           ,[Priority])
+VALUES 
+	('user_name1','ユーザ日本語名1',0),
+	('user_name2','ユーザ日本語名2',0),
+	('user_name3','ユーザ日本語名3',0)
+```
 
 ### オプション：Tracからのチケット取得を自動実行させる
 - タスクスケジューラ等で以下コマンドを任意のタイミングで定期実行させる

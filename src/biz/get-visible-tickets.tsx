@@ -34,7 +34,7 @@ export const getVisibleTickets = async () => {
       { title: '状態',
         field: 'Status',
         editable: project.TracFlag ? 'never' as editableType : 'always' as editableType,
-        lookup: { 'new': '新規', 'assigned': '割当', 'accepted': '仕掛', 'closed': '完了', 'reopened': '再開' },
+        lookup: { 'new': '起票', 'assigned': '未着手', 'accepted': '仕掛', 'closed': '完了', 'reopened': '再開' },
       },
       { title: 'メモ',
         field: 'Memo',
