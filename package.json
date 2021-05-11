@@ -18,7 +18,7 @@
     "async": "^3.2.0",
     "axios": "^0.19.2",
     "csv-string": "^4.0.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "material-table": "^1.62.0",
     "mssql": "^6.2.0",
     "next": "latest",
