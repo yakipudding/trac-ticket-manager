@@ -64,20 +64,23 @@ export default async (req: any, res: any) => {
     ,tracTicket[3]
     ,tracTicket[4]
     ,tracTicket[5]
+    ,"" //milestone
     ,tracTicket[6]
+    ,"" //version
     ,tracTicket[7]
     ,tracTicket[8]
     ,tracTicket[9]
     ,tracTicket[10]
+    ,"" //complete
     ,tracTicket[11]
     ,tracTicket[12]
     ,tracTicket[13]
     ,tracTicket[14]
     ,tracTicket[15]
     ,tracTicket[16]
-    ,tracTicket[17]
-    ,tracTicket[18]
-    ,tracTicket[19] 
+    // ,tracTicket[17]
+    // ,tracTicket[18]
+    // ,tracTicket[19] 
   )
 
   const params = [

@@ -64,7 +64,7 @@ export const getServerSideProps = async ( params: { params: { id: string } } ) =
 export default (props: ProjectInfo) => {
   const classes = useStyles();
 
-  const tracFlag = props.project.TracFlag === "true" ? true : false
+  const tracFlag = Boolean(props.project.TracFlag)
   
   const [project, setProject] = React.useState<ProjectInterface>({
     ...props.project,

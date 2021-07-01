@@ -14,6 +14,7 @@ export const getProjectFields = async (projectId: number) => {
           ,[Visible]
           ,[ProjectId]
           ,[Order]
+          ,[OrgOrder]
     FROM [dbo].[ProjectFields]
     WHERE ProjectId = @ProjectId
     ORDER BY [Order]
